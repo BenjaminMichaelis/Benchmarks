@@ -20,5 +20,11 @@
 		<PackageReference Include="BenchmarkDotNet" />
 		<PackageReference Include="BenchmarkDotNet.Annotations" />
 		<PackageReference Include="BenchmarkDotNet.Diagnostics.Windows" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Console" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Results\" />
+	</ItemGroup>
+
 </Project>

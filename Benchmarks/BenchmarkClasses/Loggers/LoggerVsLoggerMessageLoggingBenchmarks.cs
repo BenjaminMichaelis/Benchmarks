@@ -1,18 +1,56 @@
 ﻿using BenchmarkDotNet.Attributes;
-using Microsoft.Extensions.Logging.Abstractions.Internal;
 using Microsoft.Extensions.Logging;
 
-namespace BenjaminMichaelis.Benchmarks;
+namespace BenjaminMichaelis.Benchmarks.Loggers;
 
 [MemoryDiagnoser]
-public class LoggerVsLoggerMessage
+public class LoggerVsLoggerMessageLoggingBenchmarks
 {
+    private class TestLogProvider : ILoggerProvider
+    {
+        public void Dispose()
+        {
+        }
+
+        public ILogger CreateLogger(string categoryName)
+        {
+            return new TestLogger();
+        }
+
+        public class TestLogger : ILogger
+        {
+            public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
+            {
+                var message = formatter(state, exception);
+
+                if (!string.IsNullOrEmpty(message) && exception != null)
+                {
+                    throw new NotImplementedException();
+                }
+            }
+
+            public bool IsEnabled(LogLevel logLevel)
+            {
+                return true;
+            }
+
+            public IDisposable BeginScope<TState>(TState state)
+            {
+                // This return should be NullScope.Instance, but it is internal for now
+                //return NullScope.Instance
+                return default;
+            }
+
+        }
+
+    }
+
     private readonly LoggerFactory _factory;
     private readonly ILogger _logger;
     private readonly Random _random;
     private readonly Action<ILogger, Guid, int, double, Exception> _logMessage;
 
-    public LoggerVsLoggerMessage()
+    public LoggerVsLoggerMessageLoggingBenchmarks()
     {
         _factory = new LoggerFactory();
         _factory.AddProvider(new TestLogProvider());
@@ -59,7 +97,9 @@ public class LoggerVsLoggerMessage
     [Benchmark]
     public void LogLoggerInterpolatedStringMessage()
     {
+#pragma warning disable CA2254 // Template should be a static expression
         _logger.LogInformation($"CorrelationID {Guid.NewGuid()}, Arg1: {_random.Next()}, Arg2: {_random.NextDouble()}, Arg3: {null}");
+#pragma warning restore CA2254 // Template should be a static expression
     }
 
     [Benchmark]
@@ -69,35 +109,3 @@ public class LoggerVsLoggerMessage
     }
 }
 
-internal class TestLogProvider : ILoggerProvider
-{
-    public void Dispose()
-    {
-    }
-
-    public ILogger CreateLogger(string categoryName)
-    {
-        return new TestLogger();
-    }
-
-    public class TestLogger : ILogger
-    {
-        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
-        {
-            var message = formatter(state, exception);
-
-            if (!string.IsNullOrEmpty(message) && exception != null)
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public bool IsEnabled(LogLevel logLevel)
-        {
-            return true;
-        }
-
-        public IDisposable BeginScope<TState>(TState state) => NullScope.Instance;
-    }
-
-}
