@@ -1,25 +1,25 @@
 ﻿using BenchmarkDotNet.Attributes;
 using System.Text.RegularExpressions;
 
-namespace Benchmarks.BenchmarkClasses.RegexCheck;
+namespace Benchmarks.BenchmarkClasses.RegexBenchmarks;
 
 [MemoryDiagnoser]
-public partial class RegexCheck
+public partial class Regex_IsMatch
 {
     private const string email = "test@intellitect.com";
 
     [Benchmark]
-    public bool PatternPass_IsMatch() => Regex.IsMatch(email,
+    public bool IsMatchMethod_PassPattern() => Regex.IsMatch(email,
                        @"^[^@\s]+@[^@\s]+\.[^@\s]+$",
                        RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
 
     [Benchmark]
-    public bool GeneratedRegex_IsMatch()
+    public bool GeneratedRegex_IsMatchMethod()
     {
         return EmailRegex().IsMatch(email);
     }
 }
-partial class RegexCheck
+partial class Regex_IsMatch
 {
     [GeneratedRegex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$", RegexOptions.IgnoreCase)]
     public static partial Regex EmailRegex();

@@ -1,10 +1,10 @@
 ﻿using BenchmarkDotNet.Attributes;
 using Microsoft.Extensions.Logging;
 
-namespace BenjaminMichaelis.Benchmarks.Loggers;
+namespace BenjaminMichaelis.Benchmarks.LoggerBenchmarks;
 
 [MemoryDiagnoser]
-public class LoggerVsLoggerMessageLoggingBenchmarks
+public class LoggerVsLoggerMessageLogging
 {
     private class TestLogProvider : ILoggerProvider
     {
@@ -50,7 +50,7 @@ public class LoggerVsLoggerMessageLoggingBenchmarks
     private readonly Random _random;
     private readonly Action<ILogger, Guid, int, double, Exception> _logMessage;
 
-    public LoggerVsLoggerMessageLoggingBenchmarks()
+    public LoggerVsLoggerMessageLogging()
     {
         _factory = new LoggerFactory();
         _factory.AddProvider(new TestLogProvider());

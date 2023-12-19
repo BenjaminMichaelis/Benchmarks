@@ -1,6 +1,6 @@
 ﻿using BenchmarkDotNet.Attributes;
 
-namespace BenjaminMichaelis.Benchmarks.Initializations;
+namespace BenjaminMichaelis.Benchmarks.ConditionalsBenchmarks;
 
 [MemoryDiagnoser]
 public class IfVsConditionalCheck

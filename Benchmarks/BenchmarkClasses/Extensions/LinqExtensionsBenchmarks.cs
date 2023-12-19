@@ -1,8 +1,8 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Engines;
-using Benchmarks.BenchmarkClasses.Extensions;
+using Benchmarks.BenchmarkClasses.Extensions.Implementation;
 
-namespace BenjaminMichaelis.Benchmarks.Initializations;
+namespace BenjaminMichaelis.Benchmarks.ExtensionsBenchmarks;
 
 [MemoryDiagnoser]
 public class LinqWhereNotNullBenchmarks

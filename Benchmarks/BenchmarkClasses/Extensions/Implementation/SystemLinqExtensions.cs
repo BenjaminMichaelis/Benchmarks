@@ -1,4 +1,4 @@
-﻿namespace Benchmarks.BenchmarkClasses.Extensions;
+﻿namespace Benchmarks.BenchmarkClasses.Extensions.Implementation;
 
 /// <summary>
 /// Various Linq extensions

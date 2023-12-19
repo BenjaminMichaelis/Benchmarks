@@ -1,8 +1,9 @@
 ﻿using BenchmarkDotNet.Attributes;
+using Benchmarks.BenchmarkClasses.Loggers.Implementation;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace BenjaminMichaelis.Benchmarks.Loggers;
+namespace BenjaminMichaelis.Benchmarks.LoggerBenchmarks;
 
 [MemoryDiagnoser]
 public class NoParamLoggingBenchmarks
