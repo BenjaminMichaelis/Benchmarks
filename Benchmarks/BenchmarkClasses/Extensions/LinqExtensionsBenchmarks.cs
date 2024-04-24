@@ -28,8 +28,15 @@ public class LinqWhereNotNullBenchmarks
     }
 
     [Benchmark]
-    public void WhereNotNull_WithLinq()
+    public void WhereNotNull_WithLinqQueryExpression()
     {
         listWithSomeNullValues.WhereNotNullWithLinqQueryExpression().Consume(consumer);
+    }
+
+
+    [Benchmark]
+    public void WhereNotNull_WithLinqOfType()
+    {
+        listWithSomeNullValues.WhereNotNullWithLinqOfType().Consume(consumer);
     }
 }
