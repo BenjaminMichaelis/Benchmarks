@@ -158,6 +158,97 @@ public class SwitchCheck
         UnknownColor = 0x00000001
     }
 
+    public static readonly Dictionary<string, KnownColor> colorDictionary = new Dictionary<string, KnownColor>
+        {
+            { "RED", KnownColor.Red },
+            { "TAN", KnownColor.Tan },
+            { "AQUA", KnownColor.Aqua },
+            { "BLUE", KnownColor.Blue },
+            { "CYAN", KnownColor.Cyan },
+            { "GOLD", KnownColor.Gold },
+            { "GRAY", KnownColor.Gray },
+            { "LIME", KnownColor.Lime },
+            { "NAVY", KnownColor.Navy },
+            { "PERU", KnownColor.Peru },
+            { "PINK", KnownColor.Pink },
+            { "PLUM", KnownColor.Plum },
+            { "SNOW", KnownColor.Snow },
+            { "TEAL", KnownColor.Teal },
+            { "AZURE", KnownColor.Azure },
+            { "BEIGE", KnownColor.Beige },
+            { "BLACK", KnownColor.Black },
+            { "BROWN", KnownColor.Brown },
+            { "CORAL", KnownColor.Coral },
+            { "GREEN", KnownColor.Green },
+            { "IVORY", KnownColor.Ivory },
+            { "KHAKI", KnownColor.Khaki },
+            { "LINEN", KnownColor.Linen },
+            { "OLIVE", KnownColor.Olive },
+            { "WHEAT", KnownColor.Wheat },
+            { "WHITE", KnownColor.White },
+            { "BISQUE", KnownColor.Bisque },
+            { "INDIGO", KnownColor.Indigo },
+            { "MAROON", KnownColor.Maroon },
+            { "ORANGE", KnownColor.Orange },
+            { "ORCHID", KnownColor.Orchid },
+            { "PURPLE", KnownColor.Purple },
+            { "SALMON", KnownColor.Salmon },
+            { "SIENNA", KnownColor.Sienna },
+            { "SILVER", KnownColor.Silver },
+            { "TOMATO", KnownColor.Tomato },
+            { "VIOLET", KnownColor.Violet },
+            { "YELLOW", KnownColor.Yellow },
+            { "CRIMSON", KnownColor.Crimson },
+            { "DARKRED", KnownColor.DarkRed },
+            { "DIMGRAY", KnownColor.DimGray },
+            { "FUCHSIA", KnownColor.Fuchsia },
+            { "HOTPINK", KnownColor.HotPink },
+            { "MAGENTA", KnownColor.Magenta },
+            { "OLDLACE", KnownColor.OldLace },
+            { "SKYBLUE", KnownColor.SkyBlue },
+            { "THISTLE", KnownColor.Thistle },
+            { "CORNSILK", KnownColor.Cornsilk },
+            { "DARKBLUE", KnownColor.DarkBlue },
+            { "DARKCYAN", KnownColor.DarkCyan },
+            { "DARKGRAY", KnownColor.DarkGray },
+            { "DEEPPINK", KnownColor.DeepPink },
+            { "HONEYDEW", KnownColor.Honeydew },
+            { "LAVENDER", KnownColor.Lavender },
+            { "MOCCASIN", KnownColor.Moccasin },
+            { "SEAGREEN", KnownColor.SeaGreen },
+            { "SEASHELL", KnownColor.SeaShell },
+            { "ALICEBLUE", KnownColor.AliceBlue },
+            { "BURLYWOOD", KnownColor.BurlyWood },
+            { "CADETBLUE", KnownColor.CadetBlue },
+            { "CHOCOLATE", KnownColor.Chocolate },
+            { "DARKGREEN", KnownColor.DarkGreen },
+            { "DARKKHAKI", KnownColor.DarkKhaki },
+            { "FIREBRICK", KnownColor.Firebrick },
+            { "GAINSBORO", KnownColor.Gainsboro },
+            { "GOLDENROD", KnownColor.Goldenrod },
+            { "INDIANRED", KnownColor.IndianRed },
+            { "LAWNGREEN", KnownColor.LawnGreen },
+            { "LIGHTBLUE", KnownColor.LightBlue },
+            { "LIGHTCYAN", KnownColor.LightCyan },
+            { "LIGHTGRAY", KnownColor.LightGray },
+            { "LIGHTPINK", KnownColor.LightPink },
+            { "LIMEGREEN", KnownColor.LimeGreen },
+            { "MINTCREAM", KnownColor.MintCream },
+            { "MISTYROSE", KnownColor.MistyRose },
+            { "OLIVEDRAB", KnownColor.OliveDrab },
+            { "ORANGERED", KnownColor.OrangeRed },
+            { "PALEGREEN", KnownColor.PaleGreen },
+            { "PEACHPUFF", KnownColor.PeachPuff },
+            { "ROSYBROWN", KnownColor.RosyBrown },
+            { "ROYALBLUE", KnownColor.RoyalBlue },
+            { "SLATEBLUE", KnownColor.SlateBlue },
+            { "SLATEGRAY", KnownColor.SlateGray },
+            { "STEELBLUE", KnownColor.SteelBlue },
+            { "TURQUOISE", KnownColor.Turquoise },
+            { "AQUAMARINE", KnownColor.Aquamarine },
+            { "BLUEVIOLET", KnownColor.BlueViolet },
+            { "CHARTREUSE", KnownColor.Chartreuse }
+        };
 
     static KnownColor ColorStringToKnownColor(string colorString)
     {
@@ -705,6 +796,36 @@ public class SwitchCheck
         };
     }
 
+    static KnownColor PortToNewColorStringToKnownColor(string colorString)
+    {
+        string colorUpper = colorString.ToUpper(System.Globalization.CultureInfo.InvariantCulture);
+
+        return colorUpper.Length switch
+        {
+            3 => colorUpper switch
+            {
+                "RED" => KnownColor.Red,
+                "TAN" => KnownColor.Tan,
+                _ => KnownColor.UnknownColor
+            },
+            20 => colorUpper switch
+            {
+                "LIGHTGOLDENRODYELLOW" => KnownColor.LightGoldenrodYellow,
+                _ => KnownColor.UnknownColor
+            },
+            _ => KnownColor.UnknownColor,
+        };
+    }
+
+    static KnownColor ColorStringToKnownColorDictionary(string colorString)
+    {
+        if (colorDictionary.TryGetValue(colorString.ToUpperInvariant(), out KnownColor knownColor))
+        {
+            return knownColor;
+        }
+        return KnownColor.UnknownColor;
+    }
+
     [Benchmark]
     public KnownColor OldColorCheckRed()
     {
@@ -712,7 +833,7 @@ public class SwitchCheck
     }
 
     [Benchmark]
-    public KnownColor OldColorCheckLIGHTGOLDENRODYELLOW()
+    public KnownColor OldColorCheckLightGoldenRodYellow()
     {
         return ColorStringToKnownColor("LightGoldenRodYellow");
     }
@@ -724,10 +845,33 @@ public class SwitchCheck
     }
 
     [Benchmark]
-    public KnownColor NewColorCheckLIGHTGOLDENRODYELLOW()
+    public KnownColor NewColorCheckLightGoldenRodYellow()
     {
         return NewColorStringToKnownColor("LightGoldenRodYellow");
     }
 
+    [Benchmark]
+    public KnownColor DictionaryColorCheckRed()
+    {
+        return ColorStringToKnownColorDictionary("Red");
+    }
 
+    [Benchmark]
+    public KnownColor DictionaryColorCheckLightGoldenRodYellow()
+    {
+        return ColorStringToKnownColorDictionary("LightGoldenRodYellow");
+    }
+
+    [Benchmark]
+    public KnownColor PortToNewColorCheckRed()
+    {
+        return PortToNewColorStringToKnownColor("Red");
+    }
+
+    [Benchmark]
+    public KnownColor PortToNewColorCheckLightGoldenRodYellow()
+    {
+        return PortToNewColorStringToKnownColor("LightGoldenRodYellow");
+    }
 }
+
